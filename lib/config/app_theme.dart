@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/core/app_colors.dart';
 import 'package:todo_app/core/app_strings.dart';
 
-
 ThemeData appTheme() {
   return ThemeData(
     brightness: Brightness.dark,
