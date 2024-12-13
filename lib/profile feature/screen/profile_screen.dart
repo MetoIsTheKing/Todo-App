@@ -15,9 +15,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios)),
+          leading: const IconButton(
+            onPressed: null,
+            icon: Icon(Icons.arrow_back_ios),
+            color: Color.fromRGBO(10, 10, 10, 0),
+          ),
           centerTitle: true,
           title: const Text(
             'Profile',

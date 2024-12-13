@@ -7,16 +7,20 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
       // decoration: const BoxDecoration(color: Colors.red),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        SizedBox(
-          width: 225,
-          height: 225,
-          child: Image.asset('assets/images/Home.png'),
-        ),
+        Expanded(
+            child: SizedBox(
+          height: 650,
+          width: 250,
+          child: Image.asset(
+            'assets/images/Home.png',
+            fit: BoxFit.cover,
+          ),
+        )),
         const SizedBox(height: 20),
         const SizedBox(
             child: Text(

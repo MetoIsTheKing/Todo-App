@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_app/core/app_colors.dart';
+import 'package:todo_app/home%20feature/screen/home_page.dart';
+import 'package:todo_app/home%20feature/services/cubit/note_cubit.dart';
+import 'package:todo_app/home%20feature/services/notes_repository.dart';
 import 'package:todo_app/home%20feature/widget/bottomnavbar_widget.dart';
-import 'package:todo_app/home%20feature/widget/home_widget.dart';
+import 'package:todo_app/home%20feature/widget/note_dialoge.dart';
 import 'package:todo_app/profile%20feature/screen/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,15 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
   static const TextStyle _textStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
 
-  final List<Widget> screens = const [
-    HomeWidget(),
-    Center(child: Text("Search", style: _textStyle)),
-    Center(child: Text("Notifications", style: _textStyle)),
-    ProfileScreen(),
+  final List<Widget> screens = [
+    BlocProvider(
+      create: (context) => NoteCubit(NoteRepository(Supabase.instance.client)),
+      child: const HomePage(),
+    ),
+    const Center(child: Text("Search", style: _textStyle)),
+    const Center(child: Text("Notifications", style: _textStyle)),
+    const ProfileScreen(),
   ];
 
   void _onFabPressed() {
-    // TODO: Implement FAB functionality (Show Dialog)
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => const NoteDialoge());
   }
 
   @override
@@ -38,9 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: _currentIndex == 0
           ? AppBar(
-              leading: IconButton(
-                onPressed: () => {},
-                icon: const Icon(Icons.sort),
+              leading: const IconButton(
+                onPressed: null,
+                icon: Icon(Icons.sort),
               ),
               backgroundColor: Colors.transparent,
               title: const Text(

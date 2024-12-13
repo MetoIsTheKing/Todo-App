@@ -3,8 +3,7 @@ import 'package:todo_app/LogIn/splash_screen.dart';
 import 'package:todo_app/home%20feature/screen/home_screen.dart';
 import 'package:todo_app/profile%20feature/screen/profile_screen.dart';
 
-
-class Routes{
+class Routes {
   static const String splash = '';
   static const String welcomeScreen = '/welcome';
   static const String logIn = '/welcome/login';
@@ -17,11 +16,10 @@ class Routes{
 }
 
 class AppRoutes {
-  
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.splash:
-      return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       // case Routes.welcomeScreen:
       //   return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       // case Routes.logIn:
@@ -29,16 +27,18 @@ class AppRoutes {
       // case Routes.signUp:
       //   return MaterialPageRoute(builder: (_) => const SignupScreen());
       case Routes.homePage:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(
+            builder: (_) => const HomeScreen());
       case Routes.profilePage:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());  
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
       // case Routes.settingPage:
-      //   return MaterialPageRoute(builder: (_) => const SettingsScreen());  
-      
+      //   return MaterialPageRoute(builder: (_) => const SettingsScreen());
+
       default:
         return undefinedRoute();
     }
   }
+
   static Route<dynamic> undefinedRoute() {
     return MaterialPageRoute(
       builder: (context) => const Scaffold(
