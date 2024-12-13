@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todo_app/core/app_colors.dart';
+import 'package:todo_app/home%20feature/services/cubit/note_cubit.dart';
 import 'package:todo_app/home%20feature/widget/circle_avatar_border.dart';
 
 class NoteDialoge extends StatefulWidget {
-  const NoteDialoge({super.key});
+  const NoteDialoge({super.key, required NoteCubit noteCubit});
 
   @override
   State<NoteDialoge> createState() => _NoteDialogeState();

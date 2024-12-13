@@ -38,9 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _onFabPressed() {
+    final noteCubit = context.read<NoteCubit>();
     showDialog(
         context: context,
-        builder: (BuildContext context) => const NoteDialoge());
+        builder: (BuildContext context) => NoteDialoge(noteCubit: noteCubit));
   }
 
   @override
