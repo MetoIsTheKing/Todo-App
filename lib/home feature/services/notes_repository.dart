@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_app/home%20feature/services/note_model.dart';
 
@@ -11,7 +12,7 @@ class NoteRepository {
       final response = await client
           .from('notes')
           .select()
-          .order('created_at', ascending: false);
+          .order('priority', ascending: true);
 
       // Ensure response is a list of maps
       final data = response as List<dynamic>;
@@ -21,17 +22,27 @@ class NoteRepository {
     }
   }
 
-  Future<void> addNote(Note note) async {
-    try {
-      await client.from('notes').insert(note.toJson());
-    } catch (e) {
-      throw Exception('Error adding note: $e');
+  Future<void> addNote({
+  required String content,
+  required String category,
+  required int priority,
+  required String color,
+}) async {
+    final response = await client.from('notes').insert({
+      'content': content,
+      'category': category,
+      'priority': priority,
+      'color': color,
+      'completed': false,
+    });
+    if (kDebugMode) {
+      print('Response from Supabase: $response');
     }
-  }
+}
 
-  Future<void> updateNote(int id, Map<String, dynamic> updates) async {
+  Future<void> updateNoteStatus(int id, bool updates) async {
     try {
-      await client.from('notes').update(updates).eq('id', id);
+      await client.from('notes').update({'completed':updates}).eq('id', id);
     } catch (e) {
       throw Exception('Error updating note: $e');
     }
@@ -42,6 +53,14 @@ class NoteRepository {
       await client.from('notes').delete().eq('id', id);
     } catch (e) {
       throw Exception('Error deleting note: $e');
+    }
+  }
+
+  Future<void> updateNote(int id, Map<String, dynamic> updates) async {
+    try {
+      await client.from('notes').update(updates).eq('id', id);
+    } catch (e) {
+      throw Exception('Error updating note: $e');
     }
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:todo_app/core/app_colors.dart';
 import 'package:todo_app/home%20feature/screen/home_page.dart';
 import 'package:todo_app/home%20feature/services/cubit/note_cubit.dart';
-import 'package:todo_app/home%20feature/services/notes_repository.dart';
 import 'package:todo_app/home%20feature/widget/bottomnavbar_widget.dart';
 import 'package:todo_app/home%20feature/widget/note_dialoge.dart';
 import 'package:todo_app/profile%20feature/screen/profile_screen.dart';
@@ -28,10 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
 
   final List<Widget> screens = [
-    BlocProvider(
-      create: (context) => NoteCubit(NoteRepository(Supabase.instance.client)),
-      child: const HomePage(),
-    ),
+    const HomePage(),
     const Center(child: Text("Search", style: _textStyle)),
     const Center(child: Text("Notifications", style: _textStyle)),
     const ProfileScreen(),
@@ -65,8 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomnavbarWidget(
           currentIndex: _currentIndex, onIndexChanged: _onIndexChanged),
       floatingActionButton: FloatingActionButton(
+        enableFeedback: true,
+        elevation: 1,
         onPressed: _onFabPressed,
-        shape: const CircleBorder(),
+        shape: const CircleBorder(
+          side: BorderSide(color: Color.fromARGB(255, 76, 77, 153), width: 1),
+        ),
         backgroundColor: AppColors.accentColor,
         tooltip: 'Add Task',
         child: const Icon(Icons.add),

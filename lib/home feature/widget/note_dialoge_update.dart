@@ -4,18 +4,28 @@ import 'package:todo_app/core/app_colors.dart';
 import 'package:todo_app/home%20feature/services/cubit/note_cubit.dart';
 import 'package:todo_app/home%20feature/widget/circle_avatar_border.dart';
 
-class NoteDialoge extends StatefulWidget {
+class NoteDialogeUpdate extends StatefulWidget {
   final NoteCubit noteCubit;
-  const NoteDialoge({
+  final int id;
+  final int priority;
+  final String content;
+  final String category;
+  final Color tileColor;
+  const NoteDialogeUpdate({
     super.key,
     required this.noteCubit,
+    required this.id,
+    required this.priority,
+    required this.content,
+    required this.category,
+    required this.tileColor,
   });
 
   @override
-  State<NoteDialoge> createState() => _NoteDialogeState();
+  State<NoteDialogeUpdate> createState() => _NoteDialogeState();
 }
 
-class _NoteDialogeState extends State<NoteDialoge> {
+class _NoteDialogeState extends State<NoteDialogeUpdate> {
   late String colorCode;
   Color selectedColor = AppColors.accentColor;
   final color1 = const Color.fromARGB(255, 243, 158, 158);
@@ -27,10 +37,20 @@ class _NoteDialogeState extends State<NoteDialoge> {
   final titleController = TextEditingController();
   final categoryController = TextEditingController();
   final priorityController = TextEditingController();
+  late Color darkerColor;
+
   @override
   void initState() {
     super.initState();
     colorCode = selectedColor.value.toRadixString(16).toUpperCase();
+    darkerColor = widget.tileColor
+        .withRed(widget.tileColor.red - 80)
+        .withGreen(widget.tileColor.green - 80)
+        .withBlue(widget.tileColor.blue - 100);
+
+    titleController.text = widget.content;
+    categoryController.text = widget.category;
+    priorityController.text = widget.priority.toString();
   }
 
   void updateColor(Color color) {
@@ -43,12 +63,10 @@ class _NoteDialogeState extends State<NoteDialoge> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        'Add new task',
+      title: Text(
+        'Edit task',
         style: TextStyle(
-            color: AppColors.accentColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w700),
+            color: darkerColor, fontSize: 20, fontWeight: FontWeight.w700),
       ),
       scrollable: true,
       contentPadding: const EdgeInsets.all(12),
@@ -71,13 +89,13 @@ class _NoteDialogeState extends State<NoteDialoge> {
                 decoration: InputDecoration(
                   labelText: 'content',
                   hintText: 'do something',
-                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
+                  hintStyle: TextStyle(color: darkerColor, fontSize: 14),
+                  border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: darkerColor)),
                   fillColor: Colors.transparent,
-                  focusColor: Colors.white,
-                  hoverColor: const Color.fromARGB(255, 120, 122, 213),
+                  focusColor: darkerColor,
+                  hoverColor: darkerColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -94,13 +112,13 @@ class _NoteDialogeState extends State<NoteDialoge> {
                 decoration: InputDecoration(
                   labelText: 'category',
                   hintText: 'ex: work',
-                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
+                  hintStyle: TextStyle(color: darkerColor, fontSize: 14),
+                  border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: darkerColor)),
                   fillColor: Colors.transparent,
-                  focusColor: Colors.white,
-                  hoverColor: const Color.fromARGB(255, 120, 122, 213),
+                  focusColor: darkerColor,
+                  hoverColor: darkerColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -121,13 +139,13 @@ class _NoteDialogeState extends State<NoteDialoge> {
                 decoration: InputDecoration(
                   labelText: 'priority',
                   hintText: 'eg : 1,2,3,4',
-                  hintStyle: TextStyle(color: Colors.grey[800], fontSize: 14),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
+                  hintStyle: TextStyle(color: darkerColor, fontSize: 14),
+                  border: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: darkerColor)),
                   fillColor: Colors.transparent,
-                  focusColor: Colors.white,
-                  hoverColor: const Color.fromARGB(255, 120, 122, 213),
+                  focusColor: darkerColor,
+                  hoverColor: darkerColor,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -186,7 +204,7 @@ class _NoteDialogeState extends State<NoteDialoge> {
                   ),
                   GestureDetector(
                     onTap: () {
-                     updateColor(color5);
+                      updateColor(color5);
                     },
                     child: CircleAvatarWithBorder(
                       color: color5,
@@ -221,14 +239,16 @@ class _NoteDialogeState extends State<NoteDialoge> {
                   duration: Duration(seconds: 1),
                 ),
               );
-              widget.noteCubit.addNewNote(
-                content: titleController.text,
-                category: categoryController.text,
-                priority: priorityController.text.isEmpty
-                    ? 1
-                    : int.parse(priorityController.text),
-                color: colorCode,
+              widget.noteCubit.updateNote(
+                id: widget.id,
+                updates: {
+                  'content': titleController.text,
+                  'category': categoryController.text,
+                  'priority': int.parse(priorityController.text),
+                  'color': selectedColor.value.toRadixString(16).toUpperCase(),
+                },
               );
+
               Navigator.pop(context);
             }
           },

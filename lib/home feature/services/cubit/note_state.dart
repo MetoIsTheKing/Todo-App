@@ -6,6 +6,9 @@ sealed class NoteState {}
 final class NoteInitial extends NoteState {}
 final class NoteIsLoading extends NoteState {}
 final class NoteIsEmpty extends NoteState {}
+final class NoteAddedSuccssfully extends NoteState {}
+final class NoteUpdatedSuccssfully extends NoteState {}
+final class NoteDeletedSuccssfully extends NoteState {}
 final class NoteError extends NoteState {
   final String message;
   NoteError(this.message);

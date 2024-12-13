@@ -1,22 +1,26 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo_app/home%20feature/services/cubit/note_cubit.dart';
+import 'package:todo_app/home%20feature/widget/note_dialoge_update.dart';
 
 class NoteTile extends StatefulWidget {
+  final int id;
   final Color tileColor;
   final bool isCompleted;
   final String title;
   final int priority;
   final String category;
-  VoidCallback? deleteItem;
-  NoteTile(
-      {super.key,
-      required this.tileColor,
-      required this.isCompleted,
-      required this.title,
-      required this.priority,
-      required this.category,
-      });
+  const NoteTile({
+    super.key,
+    required this.tileColor,
+    required this.isCompleted,
+    required this.title,
+    required this.priority,
+    required this.category,
+    required this.id,
+  });
 
   @override
   State<NoteTile> createState() => _NoteTileState();
@@ -41,18 +45,20 @@ class _NoteTileState extends State<NoteTile> {
     title = widget.title;
     category = widget.category;
     priority = widget.priority;
-    
   }
 
   @override
   Widget build(BuildContext context) {
+    final NoteCubit noteCubit = context.read<NoteCubit>();
     return Slidable(
       closeOnScroll: true,
       dragStartBehavior: DragStartBehavior.start,
       direction: Axis.horizontal,
       endActionPane: ActionPane(motion: const ScrollMotion(), children: [
         SlidableAction(
-          onPressed: (context) => widget.deleteItem!(),
+          onPressed: (context) {
+            noteCubit.deleteNote(widget.id);
+          },
           backgroundColor: const Color.fromARGB(255, 238, 6, 6),
           foregroundColor: Colors.white,
           icon: Icons.delete,
@@ -165,22 +171,35 @@ class _NoteTileState extends State<NoteTile> {
                         onChanged: (bool? value) {
                           setState(() {
                             isCompleted = value!;
+                            noteCubit.updateNoteStatus(
+                                id: widget.id, updates: isCompleted);
                           });
                         },
                         activeColor: darkerColor,
                         checkColor: Colors.white,
                         side: BorderSide(
-                          color: darkerColor, // Stroke color
-                          width: 3.0, // Stroke width
+                          color: darkerColor,
+                          width: 3.0,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20), // Circular shape
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final noteCubit = context.read<NoteCubit>();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                NoteDialogeUpdate(
+                                  noteCubit: noteCubit,
+                                  id: widget.id,
+                                  content: widget.title,
+                                  category: widget.category,
+                                  priority: widget.priority,
+                                  tileColor: widget.tileColor,));
+                      },
                       icon: const Icon(Icons.edit),
                       iconSize: 30,
                       color: darkerColor,

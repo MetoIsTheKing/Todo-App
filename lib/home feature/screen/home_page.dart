@@ -18,11 +18,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<NoteCubit>().fetchNotes();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
-    return BlocBuilder<NoteCubit, NoteState>(
+    return BlocConsumer<NoteCubit, NoteState>(
       builder: (context, state) {
         if (state is NoteIsLoading) {
           return const Center(
@@ -40,19 +39,46 @@ class _HomePageState extends State<HomePage> {
             itemCount: state.notes.length,
             itemBuilder: (context, index) {
               final note = state.notes[index];
-              final color =
-                  Color(int.parse('FF${note.color}', radix: 16));;
+              final color = Color(int.parse(note.color, radix: 16));
               return NoteTile(
+                id:note.id ,
                 tileColor: color,
                 isCompleted: note.completed,
                 title: note.content,
                 priority: note.priority,
-                category: note.category,
+                category: note.category, 
+                
               );
             },
           );
         } else {
-          return const Center(child: Text('Server Error'));
+          return const Center(
+              child: CircularProgressIndicator(
+            color: AppColors.accentColor,
+          ));
+        }
+      },
+      listener: (BuildContext context, NoteState state) {
+        if (state is NoteAddedSuccssfully) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Note added successfully!, wait for refreshing')),
+          );
+        }else if (state is NoteUpdatedSuccssfully) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Note updated successfully!, wait for refreshing')),
+          );
+        } 
+        else if (state is NoteError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }else if (state is NoteDeletedSuccssfully) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text('Note deleted successfully!, wait for refreshing')),
+          );
         }
       },
     );

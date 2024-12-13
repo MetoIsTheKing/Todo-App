@@ -10,11 +10,10 @@ class HomeWidget extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.6,
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
-      // decoration: const BoxDecoration(color: Colors.red),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Expanded(
             child: SizedBox(
-          height: 650,
+          height: 50,
           width: 250,
           child: Image.asset(
             'assets/images/Home.png',
