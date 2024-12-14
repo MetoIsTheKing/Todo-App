@@ -62,6 +62,7 @@ class _HomePageState extends State<HomePage> {
         if (state is NoteAddedSuccssfully) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
+              duration: Duration(milliseconds: 50),
                 content: Text('Note added successfully!, wait for refreshing')),
           );
         }else if (state is NoteUpdatedSuccssfully) {
@@ -72,12 +73,16 @@ class _HomePageState extends State<HomePage> {
         } 
         else if (state is NoteError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+            SnackBar(content: Text(state.message),
+              duration: const Duration(milliseconds: 50),
+            ),
           );
         }else if (state is NoteDeletedSuccssfully) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content: Text('Note deleted successfully!, wait for refreshing')),
+                content: Text('Note deleted successfully!, wait for refreshing'),
+              duration: Duration(milliseconds: 50),
+                ),
           );
         }
       },

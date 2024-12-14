@@ -38,8 +38,8 @@ class _NoteTileState extends State<NoteTile> {
     super.initState();
     isCompleted = widget.isCompleted;
     darkerColor = widget.tileColor
-        .withRed(widget.tileColor.red - 80)
-        .withGreen(widget.tileColor.green - 80)
+        .withRed(widget.tileColor.red - 60)
+        .withGreen(widget.tileColor.green - 100)
         .withBlue(widget.tileColor.blue - 100);
 
     title = widget.title;
@@ -68,7 +68,7 @@ class _NoteTileState extends State<NoteTile> {
       ]),
       child: SizedBox(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.25,
         child: Card(
           elevation: 0,
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -94,7 +94,7 @@ class _NoteTileState extends State<NoteTile> {
                       child: Text(
                         title,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 26,
                             fontWeight: FontWeight.bold,
                             color: darkerColor,
                             decoration: isCompleted
@@ -198,7 +198,8 @@ class _NoteTileState extends State<NoteTile> {
                                   content: widget.title,
                                   category: widget.category,
                                   priority: widget.priority,
-                                  tileColor: widget.tileColor,));
+                                  tileColor: widget.tileColor,
+                                ));
                       },
                       icon: const Icon(Icons.edit),
                       iconSize: 30,

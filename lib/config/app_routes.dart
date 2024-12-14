@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/LogIn/splash_screen.dart';
+import 'package:todo_app/Screens/login_screen.dart';
+import 'package:todo_app/Screens/register_screen.dart';
+
+import 'package:todo_app/Screens/splash_screen.dart';
+import 'package:todo_app/Screens/welcome_to_todo_app.dart';
 import 'package:todo_app/home%20feature/screen/home_screen.dart';
 import 'package:todo_app/profile%20feature/screen/profile_screen.dart';
 
@@ -20,19 +24,18 @@ class AppRoutes {
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(builder: (_) => const SplashScreen());
-      // case Routes.welcomeScreen:
-      //   return MaterialPageRoute(builder: (_) => const WelcomeScreen());
-      // case Routes.logIn:
-      //   return MaterialPageRoute(builder: (_) => const SigninScreen());
-      // case Routes.signUp:
-      //   return MaterialPageRoute(builder: (_) => const SignupScreen());
+      case Routes.welcomeScreen:
+        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
+      case Routes.logIn:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.signUp:
+        return MaterialPageRoute(builder: (_) => const RegisterScreen());
       case Routes.homePage:
         return MaterialPageRoute(
             builder: (_) => const HomeScreen());
       case Routes.profilePage:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
-      // case Routes.settingPage:
-      //   return MaterialPageRoute(builder: (_) => const SettingsScreen());
+      
 
       default:
         return undefinedRoute();

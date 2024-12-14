@@ -23,7 +23,7 @@ class _TodoAppState extends State<TodoApp> {
             brightness: _isDarkMode ? Brightness.dark : Brightness.light),
         debugShowCheckedModeBanner: false,
         title: 'Todo App',
-        initialRoute: Routes.homePage,
+        initialRoute: Routes.splash,
         onGenerateRoute: AppRoutes.onGenerateRoute,
       ),
     );
