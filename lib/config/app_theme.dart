@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/core/app_colors.dart';
 import 'package:todo_app/core/app_strings.dart';
 
-ThemeData appTheme() {
+ThemeData appTheme({required Brightness brightness}) {
   return ThemeData(
-    brightness: Brightness.dark,
+    brightness: brightness,
     primaryColor: AppColors.primaryColor,
     bottomAppBarTheme: const BottomAppBarTheme(
         color: AppColors.primaryColor,
